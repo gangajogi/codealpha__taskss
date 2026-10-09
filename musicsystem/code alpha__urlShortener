@@ -1,0 +1,178 @@
+from flask import Flask, request, jsonify, redirect
+import sqlite3
+import string
+import random
+from urllib.parse import urlparse
+
+app = Flask(__name__)
+
+DATABASE = "urls.db"
+
+
+# ---------------- DATABASE ----------------
+
+def init_db():
+    conn = sqlite3.connect(DATABASE)
+
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS urls (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            original_url TEXT NOT NULL,
+            short_code TEXT UNIQUE NOT NULL
+        )
+    """)
+
+    conn.commit()
+    conn.close()
+
+
+# ---------------- SHORT CODE ----------------
+
+def generate_short_code(length=6):
+    characters = string.ascii_letters + string.digits
+
+    while True:
+        code = ''.join(random.choice(characters) for _ in range(length))
+
+        conn = sqlite3.connect(DATABASE)
+        cursor = conn.cursor()
+
+        cursor.execute(
+            "SELECT id FROM urls WHERE short_code = ?",
+            (code,)
+        )
+
+        existing = cursor.fetchone()
+
+        conn.close()
+
+        if existing is None:
+            return code
+
+
+# ---------------- CREATE SHORT URL ----------------
+
+@app.route("/api/shorten", methods=["POST"])
+def shorten_url():
+
+    data = request.get_json()
+
+    if not data or "url" not in data:
+        return jsonify({
+            "error": "URL is required"
+        }), 400
+
+    original_url = data["url"].strip()
+
+    # Check URL
+    parsed_url = urlparse(original_url)
+
+    if parsed_url.scheme not in ["http", "https"] or not parsed_url.netloc:
+        return jsonify({
+            "error": "Please enter a valid URL"
+        }), 400
+
+    # Generate short code
+    short_code = generate_short_code()
+
+    # Save in database
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        INSERT INTO urls (original_url, short_code)
+        VALUES (?, ?)
+    """, (original_url, short_code))
+
+    conn.commit()
+    conn.close()
+
+    short_url = request.host_url + short_code
+
+    return jsonify({
+        "message": "URL shortened successfully",
+        "original_url": original_url,
+        "short_code": short_code,
+        "short_url": short_url
+    }), 201
+
+
+# ---------------- REDIRECT ----------------
+
+@app.route("/<short_code>")
+def redirect_to_original(short_code):
+
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT original_url
+        FROM urls
+        WHERE short_code = ?
+    """, (short_code,))
+
+    result = cursor.fetchone()
+
+    conn.close()
+
+    if result is None:
+        return jsonify({
+            "error": "Short URL not found"
+        }), 404
+
+    original_url = result[0]
+
+    return redirect(original_url)
+
+
+# ---------------- VIEW ALL URLS ----------------
+
+@app.route("/api/urls", methods=["GET"])
+def get_all_urls():
+
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT id, original_url, short_code
+        FROM urls
+        ORDER BY id DESC
+    """)
+
+    urls = cursor.fetchall()
+
+    conn.close()
+
+    result = []
+
+    for url in urls:
+        result.append({
+            "id": url[0],
+            "original_url": url[1],
+            "short_code": url[2],
+            "short_url": request.host_url + url[2]
+        })
+
+    return jsonify(result)
+
+
+# ---------------- HOME ----------------
+
+@app.route("/")
+def home():
+    return jsonify({
+        "message": "URL Shortener API is running"
+    })
+
+
+# ---------------- START SERVER ----------------
+
+if __name__ == "__main__":
+    init_db()
+
+    app.run(
+        debug=True,
+        port=5000
+    )

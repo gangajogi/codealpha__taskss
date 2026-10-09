@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Music Player</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="music-player">
+
+        <!-- HEADER -->
+        <header>
+            <div class="logo">🎵 My Music</div>
+            <button class="add-btn" onclick="document.getElementById('songInput').click()">
+                + Add Songs
+            </button>
+
+            <input
+                type="file"
+                id="songInput"
+                accept="audio/*"
+                multiple
+                hidden
+            >
+        </header>
+
+
+        <!-- PLAYER -->
+        <main>
+
+            <div class="album-area">
+
+                <div class="album-cover" id="albumCover">
+                    🎵
+                </div>
+
+                <div class="song-info">
+
+                    <h1 id="songTitle">No Song Selected</h1>
+
+                    <p id="artistName">Add an MP3 song to start playing</p>
+
+                </div>
+
+            </div>
+
+
+            <!-- AUDIO -->
+            <audio id="audio"></audio>
+
+
+            <!-- PROGRESS -->
+            <div class="progress-area">
+
+                <span id="currentTime">0:00</span>
+
+                <input
+                    type="range"
+                    id="progressBar"
+                    value="0"
+                    min="0"
+                    max="100"
+                >
+
+                <span id="duration">0:00</span>
+
+            </div>
+
+
+            <!-- CONTROLS -->
+            <div class="controls">
+
+                <button id="previousBtn" class="control-btn">
+                    ⏮
+                </button>
+
+                <button id="playBtn" class="play-btn">
+                    ▶
+                </button>
+
+                <button id="nextBtn" class="control-btn">
+                    ⏭
+                </button>
+
+            </div>
+
+
+            <!-- VOLUME -->
+            <div class="volume-area">
+
+                <span>🔊</span>
+
+                <input
+                    type="range"
+                    id="volumeBar"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value="1"
+                >
+
+                <span id="volumeText">100%</span>
+
+            </div>
+
+
+            <!-- PLAYLIST -->
+            <section class="playlist-section">
+
+                <h2>Playlist</h2>
+
+                <div id="playlist">
+
+                    <div class="empty-message">
+                        No songs added yet.
+                        <br>
+                        Click <b>+ Add Songs</b> to add music.
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
