@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Image Gallery</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo">My Gallery</div>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#about">About</a>
+        </nav>
+    </header>
+
+
+    <!-- HOME -->
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <p class="small-title">WELCOME TO</p>
+
+            <h1>My Image Gallery</h1>
+
+            <p>
+                Explore beautiful moments, nature,
+                animals and amazing places.
+            </p>
+
+            <a href="#gallery" class="view-btn">
+                View Gallery
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- GALLERY -->
+    <section class="gallery-section" id="gallery">
+
+        <div class="section-title">
+
+            <p>EXPLORE</p>
+
+            <h2>Beautiful Collection</h2>
+
+            <span>
+                Discover our collection of beautiful images
+            </span>
+
+        </div>
+
+
+        <!-- FILTER BUTTONS -->
+
+        <div class="filters">
+
+            <button class="filter-btn active" data-filter="all">
+                All
+            </button>
+
+            <button class="filter-btn" data-filter="nature">
+                Nature
+            </button>
+
+            <button class="filter-btn" data-filter="animals">
+                Animals
+            </button>
+
+            <button class="filter-btn" data-filter="places">
+                Places
+            </button>
+
+        </div>
+
+
+        <!-- IMAGE GRID -->
+
+        <div class="gallery" id="galleryContainer">
+
+            <!-- IMAGE 1 -->
+
+            <div class="gallery-item" data-category="nature">
+
+                <img
+                    src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80"
+                    alt="Nature">
+
+                <div class="image-info">
+                    <h3>Beautiful Nature</h3>
+                    <p>Nature</p>
+                </div>
+
+            </div>
+
+
+            <!-- IMAGE 2 -->
+
+            <div class="gallery-item" data-category="places">
+
+                <img
+                    src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80"
+                    alt="Beach">
+
+                <div class="image-info">
+                    <h3>Beautiful Beach</h3>
+                    <p>Places</p>
+                </div>
+
+            </div>
+
+
+            <!-- IMAGE 3 -->
+
+            <div class="gallery-item" data-category="animals">
+
+                <img
+                    src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=900&q=80"
+                    alt="Cat">
+
+                <div class="image-info">
+                    <h3>Lovely Cat</h3>
+                    <p>Animals</p>
+                </div>
+
+            </div>
+
+
+            <!-- IMAGE 4 -->
+
+            <div class="gallery-item" data-category="nature">
+
+                <img
+                    src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=80"
+                    alt="Mountain">
+
+                <div class="image-info">
+                    <h3>Mountain View</h3>
+                    <p>Nature</p>
+                </div>
+
+            </div>
+
+
+            <!-- IMAGE 5 -->
+
+            <div class="gallery-item" data-category="animals">
+
+                <img
+                    src="https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=900&q=80"
+                    alt="Dog">
+
+                <div class="image-info">
+                    <h3>Happy Dog</h3>
+                    <p>Animals</p>
+                </div>
+
+            </div>
+
+
+            <!-- IMAGE 6 -->
+
+            <div class="gallery-item" data-category="places">
+
+                <img
+                    src="https://images.unsplash.com/photo-1470214304380-aadaedcfff1b?auto=format&fit=crop&w=900&q=80"
+                    alt="City">
+
+                <div class="image-info">
+                    <h3>Beautiful City</h3>
+                    <p>Places</p>
+                </div>
+
+            </div>
+
+
+            <!-- IMAGE 7 -->
+
+            <div class="gallery-item" data-category="nature">
+
+                <img
+                    src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=900&q=80"
+                    alt="Forest">
+
+                <div class="image-info">
+                    <h3>Green Forest</h3>
+                    <p>Nature</p>
+                </div>
+
+            </div>
+
+
+            <!-- IMAGE 8 -->
+
+            <div class="gallery-item" data-category="places">
+
+                <img
+                    src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=900&q=80"
+                    alt="Mountain">
+
+                <div class="image-info">
+                    <h3>Snow Mountains</h3>
+                    <p>Places</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ABOUT -->
+
+    <section class="about" id="about">
+
+        <div>
+
+            <p class="small-title">ABOUT</p>
+
+            <h2>Our Image Gallery</h2>
+
+            <p>
+                Welcome to our image gallery.
+                Explore beautiful photographs from
+                nature, animals and amazing places.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- LIGHTBOX -->
+
+    <div class="lightbox" id="lightbox">
+
+        <button class="close" id="closeBtn">
+            &times;
+        </button>
+
+        <button class="prev" id="prevBtn">
+            &#10094;
+        </button>
+
+        <img id="lightboxImage" src="" alt="Large Image">
+
+        <button class="next" id="nextBtn">
+            &#10095;
+        </button>
+
+        <div class="caption" id="caption"></div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 My Image Gallery | All Rights Reserved
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,425 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Image Gallery</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            color: #222;
+        }
+
+        header {
+            background: #ffffff;
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px #ddd;
+        }
+
+        header h2 {
+            color: #d60018;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #d60018;
+        }
+
+        .hero {
+            background: linear-gradient(120deg, #36040b, #d60018);
+            color: white;
+            text-align: center;
+            padding: 75px 20px;
+        }
+
+        .hero p {
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .hero .view-btn {
+            display: inline-block;
+            background: white;
+            color: #d60018;
+            padding: 12px 25px;
+            margin-top: 22px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+
+        .gallery-section {
+            padding: 60px 7%;
+            text-align: center;
+        }
+
+        .gallery-section .subtitle {
+            color: #d60018;
+            letter-spacing: 3px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .gallery-section h2 {
+            font-size: 34px;
+            margin-bottom: 15px;
+        }
+
+        .description {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 35px;
+        }
+
+        .filter-btn {
+            border: 1px solid #d60018;
+            background: white;
+            color: #d60018;
+            padding: 11px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #d60018;
+            color: white;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .gallery-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px #00000012;
+            text-align: left;
+            transition: transform 0.3s;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+        }
+
+        .image-info {
+            padding: 18px;
+        }
+
+        .image-info h3 {
+            color: #d60018;
+            margin-bottom: 8px;
+        }
+
+        .image-info p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .gallery-card.hide {
+            display: none;
+        }
+
+        footer {
+            background: #260404;
+            color: white;
+            text-align: center;
+            padding: 22px;
+            margin-top: 30px;
+        }
+
+        /* Large image popup */
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .image-modal img {
+            max-width: 90%;
+            max-height: 85vh;
+            object-fit: contain;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 800px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav a {
+                margin: 0 7px;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .gallery-section h2 {
+                font-size: 27px;
+            }
+
+            .gallery-card img {
+                height: 220px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h2>My Gallery</h2>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#about">About</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <p>WELCOME TO</p>
+        <h1>My Image Gallery</h1>
+        <p>Explore beautiful moments, nature, animals and amazing places.</p>
+        <a href="#gallery" class="view-btn">View Gallery</a>
+    </section>
+
+    <section class="gallery-section" id="gallery">
+
+        <p class="subtitle">EXPLORE</p>
+        <h2>Beautiful Collection</h2>
+        <p class="description">
+            Choose a category to explore beautiful images.
+        </p>
+
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="nature">Nature</button>
+            <button class="filter-btn" data-filter="animals">Animals</button>
+            <button class="filter-btn" data-filter="places">Places</button>
+        </div>
+
+        <div class="gallery-grid">
+
+            <!-- NATURE PHOTOS -->
+
+            <div class="gallery-card" data-category="nature">
+                <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80" alt="Beautiful landscape">
+                <div class="image-info">
+                    <h3>Beautiful Landscape</h3>
+                    <p>Nature</p>
+                </div>
+            </div>
+
+            <div class="gallery-card" data-category="nature">
+                <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=80" alt="Mountain lake">
+                <div class="image-info">
+                    <h3>Mountain Lake</h3>
+                    <p>Nature</p>
+                </div>
+            </div>
+
+            <div class="gallery-card" data-category="nature">
+                <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=900&q=80" alt="Green forest">
+                <div class="image-info">
+                    <h3>Green Forest</h3>
+                    <p>Nature</p>
+                </div>
+            </div>
+
+            <!-- ANIMAL PHOTOS -->
+
+            <div class="gallery-card" data-category="animals">
+                <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=900&q=80" alt="Golden dog">
+                <div class="image-info">
+                    <h3>Lovely Dog</h3>
+                    <p>Animals</p>
+                </div>
+            </div>
+
+            <div class="gallery-card" data-category="animals">
+                <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=900&q=80" alt="Cute dog">
+                <div class="image-info">
+                    <h3>Cute Puppy</h3>
+                    <p>Animals</p>
+                </div>
+            </div>
+
+            <div class="gallery-card" data-category="animals">
+                <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=900&q=80" alt="Cat">
+                <div class="image-info">
+                    <h3>Beautiful Cat</h3>
+                    <p>Animals</p>
+                </div>
+            </div>
+
+            <!-- PLACE PHOTOS -->
+
+            <div class="gallery-card" data-category="places">
+                <img src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=900&q=80" alt="Modern architecture">
+                <div class="image-info">
+                    <h3>Modern Architecture</h3>
+                    <p>Places</p>
+                </div>
+            </div>
+
+            <div class="gallery-card" data-category="places">
+                <img src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=900&q=80" alt="City view">
+                <div class="image-info">
+                    <h3>City View</h3>
+                    <p>Places</p>
+                </div>
+            </div>
+
+            <div class="gallery-card" data-category="places">
+                <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=900&q=80" alt="Beautiful coastal town">
+                <div class="image-info">
+                    <h3>Beautiful Destination</h3>
+                    <p>Places</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="gallery-section" id="about">
+        <p class="subtitle">ABOUT US</p>
+        <h2>About My Gallery</h2>
+        <p class="description">
+            A collection of beautiful images of nature, animals and places.
+        </p>
+    </section>
+
+    <footer>
+        <p>© 2026 My Image Gallery | All Rights Reserved</p>
+    </footer>
+
+    <!-- Image popup -->
+    <div class="image-modal" id="imageModal">
+        <span class="close-modal" id="closeModal">&times;</span>
+        <img id="modalImage" src="" alt="Full size image">
+    </div>
+
+    <script>
+        const filterButtons = document.querySelectorAll(".filter-btn");
+        const galleryCards = document.querySelectorAll(".gallery-card");
+
+        filterButtons.forEach(function(button) {
+            button.addEventListener("click", function() {
+
+                const selectedCategory = button.getAttribute("data-filter");
+
+                filterButtons.forEach(function(btn) {
+                    btn.classList.remove("active");
+                });
+
+                button.classList.add("active");
+
+                galleryCards.forEach(function(card) {
+                    const cardCategory = card.getAttribute("data-category");
+
+                    if (selectedCategory === "all" ||
+                        selectedCategory === cardCategory) {
+                        card.classList.remove("hide");
+                    } else {
+                        card.classList.add("hide");
+                    }
+                });
+            });
+        });
+
+        // Open a large image when clicked
+        const imageModal = document.getElementById("imageModal");
+        const modalImage = document.getElementById("modalImage");
+        const closeModal = document.getElementById("closeModal");
+
+        document.querySelectorAll(".gallery-card img").forEach(function(img) {
+            img.addEventListener("click", function() {
+                imageModal.style.display = "flex";
+                modalImage.src = img.src;
+                modalImage.alt = img.alt;
+            });
+        });
+
+        closeModal.addEventListener("click", function() {
+            imageModal.style.display = "none";
+        });
+
+        imageModal.addEventListener("click", function(event) {
+            if (event.target === imageModal) {
+                imageModal.style.display = "none";
+            }
+        });
+    </script>
+
+</body>
+</html>
